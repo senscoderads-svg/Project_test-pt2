@@ -77,48 +77,5 @@ Depois de garantir que o banco esteja acessível, execute novamente:
 python collector.py
 ```
 
-### Observação importante sobre o arquivo `.env` (explicação simples)
 
-O arquivo `.env` é onde o projeto guarda configurações que o programa precisa para funcionar — por exemplo, onde está o banco de dados e qual serviço RPC usar para acessar a blockchain.
-
-Para quem não é desenvolvedor: pense no `.env` como uma ficha com as instruções que o aplicativo usa para se conectar a outros serviços. Essas instruções devem ser corretas e reais; se você colar valores que "parecem" gerados automaticamente (textos estranhos, nomes genéricos ou URLs inválidas), o programa não conseguirá se conectar.
-
-O que NÃO fazer:
-- Colar valores que pareçam gerados por IA (ex.: strings como "user_generated_by_ai", URLs falsas ou frases genéricas).
-- Compartilhar o arquivo `.env` em repositórios públicos — ele pode conter senhas.
-
-O que FAZER (exemplos fáceis de entender):
-
-- Se você tem um banco PostgreSQL no seu computador ou na rede da empresa, use uma linha parecida com esta:
-
-```text
-DATABASE_URL=postgresql://user:password@localhost:5432/wallet_monitor
-BSC_RPC_URL=https://bsc-dataseed1.binance.org
-```
-
-- Se você só quer testar sem instalar nada, use SQLite (útil para testar localmente):
-
-```text
-DATABASE_URL=sqlite:///./wallet_monitor.db
-BSC_RPC_URL=https://bsc-dataseed1.binance.org
-```
-
-Como detectar problema comum:
-- Ao rodar `python collector.py`, se aparecer erro com "connection refused" ou "OperationalError" relacionado a PostgreSQL, significa que o endereço/credenciais não estão acessíveis.
-
-Opções simples para resolver sem programar:
-1. Peça ao time de infraestrutura as credenciais corretas (usuário, senha, host, porta, nome do banco) e cole no `.env`.
-2. Suba um PostgreSQL local com Docker (exemplo — copie e cole no terminal):
-
-```bash
-docker run --name wallet-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=wallet_monitor -p 5432:5432 -d postgres:15
-```
-
-3. Ou altere para SQLite (veja exemplo acima) para testes rápidos — isso cria um arquivo `wallet_monitor.db` na pasta do projeto.
-
-Se precisar, eu posso:
-- Aplicar automaticamente a fallback para SQLite (para você não precisar mudar nada manualmente).
-- Ajudar a subir o container PostgreSQL passo a passo.
-
-Segurança: nunca comite o `.env` com senhas em repositórios públicos e evite compartilhar credenciais em canais não seguros.
 
