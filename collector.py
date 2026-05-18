@@ -1,3 +1,4 @@
+#importação de bibliotecas
 import os
 from datetime import datetime, timezone
 from dotenv import load_dotenv
@@ -24,7 +25,7 @@ WALLETS = [
 # Endereço do contrato do USDT na rede BSC
 USDT_ADDRESS = Web3.to_checksum_address("0x55d398326f99059fF775485246999027B3197955")
 
-# ABI Mínima para interagir com o token
+# contrato mínimo manual para interagir com o USDT e obter saldo, símbolo e decimais
 MIN_ABI = [
     {"constant": True, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"},
     {"constant": True, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"},

@@ -1,3 +1,4 @@
+#importação de bibliotecas
 from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, Float, Integer, String
 from database import Base

@@ -1,3 +1,4 @@
+#bibliotecas padrão
 from typing import List
 from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, HTTPException
@@ -18,7 +19,7 @@ app = FastAPI(
     description="API para monitoramento de saldos de tokens na rede BSC.",
     version="1.0.0"
 )
-
+# Busca o registro (através da rota do api FastAPI) mais recente de cada carteira monitorada, utilizando uma subconsulta para garantir que apenas o registro mais recente seja retornado para cada carteira.
 @app.get("/balances/latest", response_model=List[schemas.BalanceResponse])
 def get_latest_balances(db: Session = Depends(get_db)):
     """Retorna o registro mais recente de cada carteira monitorada."""
@@ -30,7 +31,7 @@ def get_latest_balances(db: Session = Depends(get_db)):
         .group_by(models.WalletBalance.wallet_address)
         .subquery()
     )
-
+#Filtrando os registros para retornar apenas o mais recente de cada carteira, utilizando a subconsulta para comparar as datas de coleta.
     latest_balances = (
         db.query(models.WalletBalance)
         .join(
@@ -40,7 +41,7 @@ def get_latest_balances(db: Session = Depends(get_db)):
         )
         .all()
     )
-    return latest_balances
+    return latest_balances # retorna a lista com o registro mais recente de cada carteira monitorada
 
 @app.get("/balances/{wallet}/history", response_model=List[schemas.BalanceResponse])
 def get_wallet_history(wallet: str, db: Session = Depends(get_db)):
